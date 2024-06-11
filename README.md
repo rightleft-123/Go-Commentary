@@ -1,3 +1,0 @@
-# EchoSight
-
-## RAG for narration
