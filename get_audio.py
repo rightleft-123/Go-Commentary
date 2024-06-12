@@ -6,32 +6,176 @@
 import requests
 import json
 import os
+import openai
+
 from moviepy.editor import VideoFileClip, AudioFileClip, concatenate_audioclips
 #输入json文件
-def get_audio(file_path):
+
+def change_voice(person):
+    if(person=="Azuma"):
+        data = {
+            "gpt_model_path": "GPT_weights/Azuma-e10.ckpt",
+            "sovits_model_path":"SoVITS_weights/Azuma_e35_s1435.pth"
+        }
+        response = requests.post("http://127.0.0.1:9880/set_model", json=data)
+
+        if response.status_code == 400:
+            raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+        print(response.content)
+    if(person=="dingzhen"):
+        data = {
+            "gpt_model_path": "GPT_weights/dingzhen-e15.ckpt",
+            "sovits_model_path":"SoVITS_weights/Azuma_e35_s1435.pth"
+        }
+        response = requests.post("http://127.0.0.1:9880/set_model", json=data)
+
+        if response.status_code == 400:
+            raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+        print(response.content)
+    if(person=="Carol"):
+        data = {
+            "gpt_model_path": "GPT_weights/Carol-e15.ckpt",
+            "sovits_model_path":"SoVITS_weights/Carol_e40_s2160.pth"
+        }
+        response = requests.post("http://127.0.0.1:9880/set_model", json=data)
+
+        if response.status_code == 400:
+            raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+        print(response.content)
+    if(person=="xuan"):
+        data = {
+            "gpt_model_path": "GPT_weights/xuan-e15.ckpt",
+            "sovits_model_path":"SoVITS_weights/xuan_e12_s408.pth"
+        }
+        response = requests.post("http://127.0.0.1:9880/set_model", json=data)
+
+        if response.status_code == 400:
+            raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+        print(response.content)
+    if(person=="xuan"):
+        data = {
+            "gpt_model_path": "GPT_weights/-e15.ckpt",
+            "sovits_model_path":"SoVITS_weights/xuan_e12_s408.pth"
+        }
+        response = requests.post("http://127.0.0.1:9880/set_model", json=data)
+
+        if response.status_code == 400:
+            raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+        print(response.content)
+
+
+def get_audio(file_path,person):
     InputPath = open(file_path, encoding="utf-8")
     # 设置以utf-8解码模式读取文件，encoding参数必须设置，否则默认以gbk模式读取文件，当文件中包含中文时，会报错
     temp = json.load(InputPath)      #json格式数据转换为python字典类型
-    count = 1
     for i in range(len(temp)):
-        base1 = temp[i]["Commentary"]  # 因为此时已经转换为了字典类型
-        data={
-            "refer_wav_path": "./dataset/Azuma Max/Azuma_17.wav",
-            "prompt_text": "主播聊八卦，还有一些粉丝聊八卦，都会听到很多那种逆天主播",
-            "prompt_language": "zh",
-            "text": base1,
-            "text_language": "zh",
-            "speed":1.5
-        }
+        temp[i]["Commentary"]=summarize(temp[i]["Commentary"],temp[i]["Time"])
+    if person == "dingzhen":
+        change_voice("dingzhen")
+        count = 1
+        for i in range(len(temp)):
+            base1 = temp[i]["Commentary"]  # 因为此时已经转换为了字典类型
+            data={
+                "refer_wav_path": "./dataset/dingzhen/dingzhen_46.wav",
+                "prompt_text": "今天我想跟你们说说。我学到的东西，先给大家讲讲我过去的生活。",
+                "prompt_language": "zh",
+                "text": base1,
+                "text_language": "zh",
+            }
 
-        response=requests.post("http://127.0.0.1:9880",json=data)
+            response=requests.post("http://127.0.0.1:9880",json=data)
 
-        if response.status_code==400:
-            raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+            if response.status_code==400:
+                raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
 
-        with open(f"./result/commentary{count}.wav",'wb') as f:
-            f.write(response.content)
-        count += 1
+            with open(f"./result/commentary{count}.wav",'wb') as f:
+                f.write(response.content)
+            count += 1
+    if person == "Azuma":
+        change_voice("Azuma")
+        count = 1
+        for i in range(len(temp)):
+            base1 = temp[i]["Commentary"]  # 因为此时已经转换为了字典类型
+            data = {
+                "refer_wav_path": "./dataset/Azuma Max/Azuma_131.wav",
+                "prompt_text": "不愧是黄毛，嗯反正我觉得不行。",
+                "prompt_language": "zh",
+                "text": base1,
+                "text_language": "zh",
+            }
+
+            response = requests.post("http://127.0.0.1:9880", json=data)
+
+            if response.status_code == 400:
+                raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+
+            with open(f"./result/commentary{count}.wav", 'wb') as f:
+                f.write(response.content)
+            count+=1
+    if person == "xuan":
+        change_voice("xuan")
+        count = 1
+        for i in range(len(temp)):
+            base1 = temp[i]["Commentary"]  # 因为此时已经转换为了字典类型
+            data = {
+                "refer_wav_path": "./dataset/xuan/xuan_11.wav",
+                "prompt_text": "不烧脑不烧脑我已经完全明白了已经不烧脑了，我完全懂了，我他妈砍疯了都。",
+                "prompt_language": "zh",
+                "text": base1,
+                "text_language": "zh",
+            }
+
+            response = requests.post("http://127.0.0.1:9880", json=data)
+
+            if response.status_code == 400:
+                raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+
+            with open(f"./result/commentary{count}.wav", 'wb') as f:
+                f.write(response.content)
+            count+=1
+    if person == "Carol":
+        change_voice("Carol")
+        count = 1
+        for i in range(len(temp)):
+            base1 = temp[i]["Commentary"]  # 因为此时已经转换为了字典类型
+            data = {
+                "refer_wav_path": "./dataset/Carol/Carol_161.wav",
+                "prompt_text": "睁开你你那个看到玉米肠就会变成星星眼的眼睛看看这可是粉色啊。",
+                "prompt_language": "zh",
+                "text": base1,
+                "text_language": "zh",
+            }
+
+            response = requests.post("http://127.0.0.1:9880", json=data)
+
+            if response.status_code == 400:
+                raise Exception(f'请求GPTSOVITS出现错误:{response.message}')
+
+            with open(f"./result/commentary{count}.wav", 'wb') as f:
+                f.write(response.content)
+            count+=1
+def summarize(text,time):
+    API_SECRET_KEY = "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"
+    url="https://api.openai.com/v1/chat/completions"
+    header = {"Content-Type": "application/json", "Authorization": "Bearer " + API_SECRET_KEY}
+    data = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant."
+            },
+            {
+                "role": "user",
+                "content": f"帮我概括这段话到{time}之内\n"+text
+            }
+        ],
+        "temperature": 0,
+        "stream": False
+    }
+    response = requests.post(url=url, headers=header, json=data).json()
+    print(response)
+    return response
 
 def add_audio_to_video(video_path, audio_path, insert_time, output_path):
     """
@@ -41,10 +185,12 @@ def add_audio_to_video(video_path, audio_path, insert_time, output_path):
     :param insert_time: 插入时间点的列表（以秒为单位）
     :param output_path: 输出视频文件路径
     """
+    copy= VideoFileClip(video_path)
+    copy.write_videofile(output_path, codec='libx264', audio_codec='aac')
     audios = os.listdir(audio_path)
     audios = [audio_path+"/"+i for i in audios]
     for i, j in zip(audios[0:len(insert_time)],insert_time):
-        video = VideoFileClip(video_path)
+        video = VideoFileClip(output_path)
         original_audio = video.audio
         new_audio = AudioFileClip(i)
         # 将新的音频插入到原音频的指定时间点
@@ -67,5 +213,6 @@ audio_path = "./result"
 video_path = "C:/Users/ywd/Desktop/1718016213782.mp4"  # 替换为你的无声视频文件路径
 insert_time = [5.0,10.0]  # 插入时间点（以秒为单位）
 output_path = "./output_video.mp4"  # 替换为你希望保存的输出视频文件路径
-get_audio(file_path)
-add_audio_to_video(video_path,audio_path,insert_time,output_path)
+person = "xuan"
+person_list = ["dingzhen","Azuma","xuan","Carol"]
+get_audio(file_path,person)
