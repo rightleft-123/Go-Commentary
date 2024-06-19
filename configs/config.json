@@ -1,21 +1,21 @@
 {
-  "video_path":"./video/new_video.mp4",
+  "video_path":"../video/new_video.mp4",
 
-  "folder_go_list_path": "./middle_result/keyframes/",
-  "write_go_list_path": "./middle_result/go_list.json",
-  "go_detect_model_api_key": "Vw3xc06UBFiaXmZDTNJx",
+  "folder_go_list_path": "../middle_result/keyframes/",
+  "write_go_list_path": "../middle_result/go_list.json",
+  "go_detect_model_api_key": "YOUR_ROBOFLOW_API_KEY",
 
-  "go_description_json_path": "./middle_result/description.json",
-  "go_expert_knowledge_description_json_path": "./middle_result/expert_knowledge_description.json",
-  "go_expert_model_path": "./output/go_qwen2_7b_instruct",
-  "openai_api_url": "https://api.openai-proxy.com/v1",
-  "openai_api_key": "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",
+  "go_description_json_path": "../middle_result/description.json",
+  "go_expert_knowledge_description_json_path": "../middle_result/expert_knowledge_description.json",
+  "go_expert_model_path": "../output/go_qwen2_7b_instruct",
+  "openai_api_url": "YOUR_OPENAI_API_URL",
+  "openai_api_key": "YOUR_OPENAI_API_KEY",
   "openai_api_timeout": 20,
  
-  "go_description_rag_json_path": "./middle_result/commentary_script.json",
-  "bing_search_v7_endpoint": "https://api.bing.microsoft.com/v7.0/search",
-  "bing_search_v7_subscription_key": "7ec7bcb432324ba48d9305b0962a911b",
+  "go_description_rag_json_path": "../middle_result/commentary_script.json",
+  "bing_search_v7_endpoint": "YOUR_BING_SEARCH_ENDPOINT",
+  "bing_search_v7_subscription_key": "YOUR_BING_SEARCH_SUBSCRIPTION_KEY",
 
-  "go_commentary_audio_path": "./middle_result/audio_result/",
-  "go_commentary_output_video_path": "./output/output_video.mp4"
+  "go_commentary_audio_path": "../middle_result/audio_result/",
+  "go_commentary_output_video_path": "../output/output_video.mp4"
 }
