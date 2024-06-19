@@ -1,5 +1,5 @@
-# EchoSight
-A brief description of what your project does.
+# Go commentary
+We will update this Readme.md soon!!! Making sure you can run our project.
 
 ## Table of Contents
 
