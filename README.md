@@ -28,7 +28,7 @@ Replace some API keys in config folder in `config.json`.
 
 ## Contributing
 
-Special thanks to 5 contributors to this little project!
+Special thanks to 5 contributors to this project!
 
 ## License
 
